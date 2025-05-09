@@ -3,8 +3,8 @@ project(graph_algorithms)
 
 set (CMAKE_CXX_STANDARD 17)
 
-SET(CMAKE_CXX_FLAGS "-O0")
-SET(CMAKE_C_FLAGS "-O0")
+SET(CMAKE_CXX_FLAGS "-Od")
+SET(CMAKE_C_FLAGS "-Od")
 
 add_library(graph_algorithms_lib src/adjacency_list_graph.cpp src/adjacency_matrix_graph.cpp)
 target_include_directories(graph_algorithms_lib PUBLIC include/)
@@ -22,3 +22,6 @@ target_compile_definitions(test_mst PUBLIC DATA_DIR_PATH="${CMAKE_CURRENT_SOURCE
 add_executable(efficiency_tests
         src/main.cpp)
 target_link_libraries(efficiency_tests graph_algorithms_lib)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
+   
