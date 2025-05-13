@@ -221,6 +221,7 @@ void handleUserInput(std::unique_ptr<Graph>& graph)
 
 int main()
 {
+
     std::unique_ptr<Graph> graph = std::make_unique<AdjacencyListGraph>();
     handleUserInput(graph);
     return 0;
