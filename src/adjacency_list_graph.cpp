@@ -23,36 +23,40 @@ int AdjacencyListGraph::insertEdge(int v1, int v2, int weight)
     adjacencyList[v1].push_back(edgeId);
     return edgeId;
 }
-
 void AdjacencyListGraph::removeVertex(int v)
 {
-    if (vertices.find(v) == vertices.end())
+    if(vertices.find(v) == vertices.end())
     {
         throw std::runtime_error("Vertex does not exist");
     }
 
-    //usuwanie wszystkich krawedzi przylegajacych
+    std::vector<int> edgesToRemove;
 
-    for (int edgeId : adjacencyList.at(v))
+    for(const auto& [edgeId, edge] : edges)
     {
-        //znajdowanie drugiego wierzcholka krawedzi
-        const Edge& e = edges.at(edgeId);
-        int neighbor = (e.v1 == v) ? e.v2 : e.v1;
+        if(edge.v1 == v || edge.v2 == v)
+        {
+            edgesToRemove.push_back(edgeId);
+        }
+    }
 
-        //usuwanie krawedzi z listy sasiedztwa sasiada
-        auto& neigborEdges = adjacencyList.at(neighbor);
+    for(int edgeId : edgesToRemove)
+    {
+        const Edge& edge = edges.at(edgeId);
 
+        int neighbor = (edge.v1 == v) ? edge.v2 : edge.v1;
 
-        //std::remove przekazuje wszystkie krawedzie edgeId na koniec wektora i zwraca iterator na ostani element nie wliczajac
-        //wiec usuniety zostanie zakres zawierajacy tylko krawedzie ktorych szukamy
-        neigborEdges.erase(std::remove(neigborEdges.begin(), neigborEdges.end(), edgeId), neigborEdges.end());
-
+        if(adjacencyList.find(neighbor) != adjacencyList.end())
+        {
+            auto& neighborEdges = adjacencyList.at(neighbor);
+            neighborEdges.erase(std::remove(neighborEdges.begin(), neighborEdges.end(), edgeId), neighborEdges.end());
+        }
 
         edges.erase(edgeId);
     }
+
     vertices.erase(v);
     adjacencyList.erase(v);
-    
 }
 
 void AdjacencyListGraph::removeEdge(int e)
@@ -85,9 +89,9 @@ void AdjacencyListGraph::removeEdge(int e)
 std::vector<int> AdjacencyListGraph::showVertices() const
 {
     std::vector<int> result;
-    for(const auto& [id, val] : vertices) // Iteracja po parach (klucz, wartość)
+    for(const auto& [id, val] : vertices) 
     {
-        result.push_back(id); // Dodajemy tylko klucz (id) do wektora
+        result.push_back(id); 
     }
     return result;
 }
@@ -140,7 +144,7 @@ bool AdjacencyListGraph::areAdjacent(int v1, int v2) const
     for (int edgeId : adjacencyList.at(v1))
     {
         const Edge& e = edges.at(edgeId);
-        if(e.v1 == v2 || e.v2 == v1)
+        if(e.v1 == v2 || e.v2 == v2)
             return 1;
     }
     return 0;
@@ -156,9 +160,9 @@ int AdjacencyListGraph::opposite(int v, int e) const
     }
     const Edge& edge = edgeId->second;
     if(edge.v1 == v)
-        return edge.v1;
-    else if(edge.v2 == v)
         return edge.v2;
+    else if(edge.v2 == v)
+        return edge.v1;
 
     throw std::runtime_error("Vertex does not belong to the edge");
 }
@@ -253,7 +257,7 @@ void AdjacencyListGraph::printGraph() const
         {
             const Edge& e = edges.at(edgeId);
             int neighbor = (e.v1 == vertex) ? e.v2 : e.v1;
-            std::cout << neighbor << "(" << e.weight << ") ";
+            std::cout << neighbor << "(" << e.weight << ", "<< edgeId << ") ";
         }
         std::cout << "\n";
     }
