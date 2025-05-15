@@ -25,9 +25,9 @@ int AdjacencyListGraph::insertEdge(int v1, int v2, int weight)
 }
 void AdjacencyListGraph::removeVertex(int v)
 {
-    if(vertices.find(v) == vertices.end())
+    if(v>= nextVertexId)
     {
-        throw std::runtime_error("Vertex does not exist");
+        throw std::out_of_range("Vertex does not exist");
     }
 
     std::vector<int> edgesToRemove;
@@ -107,7 +107,7 @@ std::vector<int> AdjacencyListGraph::showEdges() const
 }
 
 
-std::vector<int> AdjacencyListGraph::incidentVertices(int v) const
+std::vector<int> AdjacencyListGraph::incidentEdges(int v) const
 {
     if(adjacencyList.find(v) == adjacencyList.end())
     {
@@ -116,10 +116,10 @@ std::vector<int> AdjacencyListGraph::incidentVertices(int v) const
 
     std::vector<int> result;
 
-    for (int edgeId : adjacencyList.at(v))
+    for(const auto& [edgeId, edge] : edges)
     {
-        const Edge& edge = edges.at(edgeId);
-        result.push_back((edge.v1 == v) ? edge.v2 : v);
+        if(edge.v1 == v || edge.v2 == v)
+            result.push_back(edgeId);
     }
 
     return result;

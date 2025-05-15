@@ -5,7 +5,6 @@
 #include <unordered_map>
 #include <vector>
 #include "graphs/graph.hpp"
-#include <unordered_set>
 
 class AdjacencyListGraph : public Graph
 {
@@ -33,7 +32,7 @@ class AdjacencyListGraph : public Graph
     void removeEdge(int e) override;
 
     //metody iterujace
-    std::vector<int> incidentVertices(int v) const override;
+    std::vector<int> incidentEdges(int v) const override;
     std::vector<int> showVertices() const override;
     std::vector<int> showEdges() const override;
   

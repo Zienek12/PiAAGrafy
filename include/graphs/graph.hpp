@@ -21,7 +21,7 @@ class Graph
     // Metody iterujace
     virtual std::vector<int> showVertices() const = 0;
     virtual std::vector<int> showEdges() const = 0;
-    virtual std::vector<int> incidentVertices(int v) const = 0;
+    virtual std::vector<int> incidentEdges(int v) const = 0;
 
     //Metody dostepu
     virtual std::vector<int> endVertices(int edge) const = 0;
