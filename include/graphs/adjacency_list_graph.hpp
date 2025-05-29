@@ -24,7 +24,6 @@ class AdjacencyListGraph : public Graph
 
 
   public:
-    // TODO: implement all required methods
      //metody uaktualniajace
     int insertVertex(int val) override;
     int insertEdge(int v1, int v2, int weight) override;

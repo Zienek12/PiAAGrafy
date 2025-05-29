@@ -5,7 +5,7 @@
 #include <memory>
 #include <random>
 #include <algorithm>
-#include<windows.h>
+#include <windows.h>
 
 void generateRandomGraph(const std::string& filename, int vertexCount, int edgeCount)
 {
@@ -31,14 +31,22 @@ void generateRandomGraph(const std::string& filename, int vertexCount, int edgeC
     outFile << vertexCount << " " << edgeCount << "\n";
 
     std::vector<std::pair<int, int>> possibleEdges;
+    //zewnetrzna petla oznacza indeks wierzcholka z ktorego wychodzi krawedz
     for(int i = 0; i < vertexCount; ++i)
     {
+        // j oznacza drugi koniec potencjalnej krawedzi
         for(int j = i + 1; j < vertexCount; ++j)
         {
+            // do wektora mozliwych krawedzi dodaje te dwa wierzcholki
             possibleEdges.emplace_back(i, j);
         }
     }
+    // w ten sposob generuje mozliwe krawedzie bez powtorzen w wektorze
+    // nie bedzie krawedzi ktora jako poczatek bedzie miala "x" i jako koniec "x"
 
+
+    //wektor z mozliwymi polaczeniami tasuje shuffle przestawia wszystkie elementy wektora
+    // w losowej kolejnosci
     std::shuffle(possibleEdges.begin(), possibleEdges.end(), gen);
 
     for(int i = 0; i < edgeCount/2 && i < possibleEdges.size(); ++i)
@@ -226,8 +234,6 @@ void handleUserInputList(std::unique_ptr<Graph>& graph)
         system("cls");
     } while(choice != 0);
 }
-
-
 
 void handleUserInputMatrix(std::unique_ptr<Graph>& graph)
 {
